@@ -7,7 +7,7 @@
     "lint": "prettier --check src/ && eslint src/",
     "test": "jest",
     "start": "node index.js",
-    "edit": "prettier --write"
+    "edit": "prettier --write src/"
   },
   "repository": {
     "type": "git",

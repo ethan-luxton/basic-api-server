@@ -1,18 +1,15 @@
-const express = require('express');
-const { foodRoutes } = require('./routes/food.route');
-const logger = require('./middleware/logger');
-const errorHandler = require('./error-handlers/500');
-const notFound = require('./error-handlers/404');
+const express = require('express')
+const { foodRoutes } = require('./routes/food.route')
+const logger = require('./middleware/logger')
+const errorHandler = require('./error-handlers/500')
+const notFound = require('./error-handlers/404')
 
-const server = express();
+const server = express()
 const PORT = process.env.PORT || 3002
-server.use(logger);
-server.use(express.json());
+server.use(logger)
+server.use(express.json())
 
-
-server.use(foodRoutes);
-
-
+server.use(foodRoutes)
 
 server.use('*', notFound)
 
@@ -23,6 +20,6 @@ const start = () => {
 }
 
 module.exports = {
-  server,
-  start
-};
+    server,
+    start,
+}
