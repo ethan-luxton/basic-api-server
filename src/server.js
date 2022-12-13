@@ -1,5 +1,6 @@
 const express = require('express')
 const { foodRoutes } = require('./routes/food.route')
+const { clothesRoutes } = require('./routes/clothes.route')
 const logger = require('./middleware/logger')
 const errorHandler = require('./error-handlers/500')
 const notFound = require('./error-handlers/404')
@@ -10,6 +11,7 @@ server.use(logger)
 server.use(express.json())
 
 server.use(foodRoutes)
+server.use(clothesRoutes)
 
 server.use('*', notFound)
 

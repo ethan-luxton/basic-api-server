@@ -5,7 +5,18 @@ const supertest = require('supertest');
 const { sequelize } = require('../src/models/index.js');
 const request = supertest(server);
 
-beforeAll(async () => {await sequelize.sync()});
+beforeEach(async () => {await sequelize.sync()});
+
+const createItems = async () => {
+  await request.post('/food').send({   
+    name:'strawberry',
+    group: 'fruit',
+  });
+  await request.post('/food').send({
+      name:'lettuce',
+      group: 'vegetable',
+  });
+}
 
 describe('RESTful API', () => {
 
@@ -30,6 +41,7 @@ describe('RESTful API', () => {
   });
 
   test('Find all items', async () => {
+    await createItems()
     let res = await request.get('/food');
     expect(res.body[0].name).toEqual('strawberry');
     expect(res.body[0].group).toEqual('fruit');
@@ -38,12 +50,14 @@ describe('RESTful API', () => {
   });
 
   test('Find one item', async () => {
+    await createItems()
     let res = await request.get('/food/2');
     expect(res.body.name).toEqual('lettuce');
     expect(res.body.group).toEqual('vegetable');
   });
 
   test('updates a single food item', async () => {
+    await createItems()
     await request.put('/food/1').send({
         name: "tomato",
         group: 'vegetable',
@@ -54,6 +68,7 @@ describe('RESTful API', () => {
   });
 
   test('deletes a single food item', async () => {
+    await createItems()
     await request.delete('/food/1');
     let res = await request.get('/food');
     expect(res.body[0].name).toEqual('lettuce');
@@ -61,4 +76,4 @@ describe('RESTful API', () => {
   });
 });
 
-afterAll(async () => {await sequelize.drop();});
+afterEach(async () => {await sequelize.drop();});
